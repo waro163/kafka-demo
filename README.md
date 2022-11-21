@@ -14,4 +14,5 @@ go run -mod=vendor main/producer.go
 
 # consumer
 ```
+go run -mod=vendor main/worker.go --topics=quickstart-topic,test --groupname=myGroup
 ```
