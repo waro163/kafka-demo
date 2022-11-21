@@ -19,8 +19,6 @@ func main() {
 	if err != nil {
 		return
 	}
-	exitSignal := make(chan os.Signal)
-	signal.Notify(exitSignal, os.Interrupt)
 
 	go func() {
 		select {
@@ -28,25 +26,29 @@ func main() {
 			log.Println("produce error")
 		case <-producer.Successes():
 			log.Println("produce success")
-		case <-exitSignal:
-			producer.Close()
-			log.Println("producer exit")
-			os.Exit(0)
 		}
 	}()
+
 	var topicName, message string
+	go func() {
+		for {
+			fmt.Println("input your topic:")
+			fmt.Scanf("%s", &topicName)
+			fmt.Println("input your message:")
+			fmt.Scanf("%s", &message)
 
-	for {
-		fmt.Println("input your topic:")
-		fmt.Scanf("%s", &topicName)
-		fmt.Println("input your message:")
-		fmt.Scanf("%s", &message)
-
-		msg := &sarama.ProducerMessage{
-			Topic: topicName,
-			Key:   sarama.StringEncoder(message),
-			Value: sarama.StringEncoder(message),
+			msg := &sarama.ProducerMessage{
+				Topic: topicName,
+				Key:   sarama.StringEncoder(message),
+				Value: sarama.StringEncoder(message),
+			}
+			producer.Input() <- msg
 		}
-		producer.Input() <- msg
-	}
+	}()
+
+	exitSignal := make(chan os.Signal)
+	signal.Notify(exitSignal, os.Interrupt)
+	<-exitSignal
+	producer.Close()
+	log.Println("producer exit")
 }
