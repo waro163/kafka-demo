@@ -10,15 +10,10 @@ import (
 )
 
 var (
-	// topicName string
 	url string = "localhost:9092"
 )
 
-// func init() {
-// 	flag.StringVar(&topicName, "topic", "quickstart-topic", "provide which topic you will produce message")
-// }
 func main() {
-	// flag.Parse()
 	conf := sarama.NewConfig()
 	producer, err := sarama.NewAsyncProducer([]string{url}, conf)
 	if err != nil {
