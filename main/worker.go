@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"strings"
 
-	sarama "gopkg.in/Shopify/sarama.v1"
+	sarama "github.com/IBM/sarama"
 )
 
 var (

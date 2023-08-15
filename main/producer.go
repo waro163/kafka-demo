@@ -6,7 +6,7 @@ import (
 	"os"
 	"os/signal"
 
-	sarama "gopkg.in/Shopify/sarama.v1"
+	sarama "github.com/IBM/sarama"
 )
 
 var (
