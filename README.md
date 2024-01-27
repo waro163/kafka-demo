@@ -12,14 +12,26 @@ go mod tidy
 go mod vendor
 ```
 
-# producer
+# simple use
 
+## producer
 ```
-go run -mod=vendor main/producer.go
+go run -mod=vendor main/producer/*
 ```
 
-# consumer
-
+## consumer
 ```
-go run -mod=vendor main/worker.go --topics=quickstart-topic,test --groupname=myGroup
+go run -mod=vendor main/consumer/* --topics=quickstart-topic,test --groupname=myGroup
+```
+
+# open telemetry use
+
+## producer
+```
+go run -mod=vendor otel/producer/*
+```
+
+## consumer
+```
+go run -mod=vendor otel/consumer/* --topics=quickstart-topic,test --groupname=myGroup
 ```
